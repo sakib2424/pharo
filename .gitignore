@@ -1,0 +1,15 @@
+node_modules/
+**/bin/
+**/obj/
+**/dist/
+artifacts/
+coverage/
+playwright-report/
+test-results/
+.env
+.env.*
+!.env.example
+.DS_Store
+*.user
+*.suo
+.vs/

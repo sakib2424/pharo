@@ -1,0 +1,12 @@
+package-lock.json
+**/packages.lock.json
+contracts/openapi.json
+src/web/src/api/schema.d.ts
+node_modules
+**/bin
+**/obj
+**/dist
+artifacts
+playwright-report
+test-results
+coverage

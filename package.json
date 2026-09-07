@@ -1,0 +1,33 @@
+{
+  "name": "pharo",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "src/web"
+  ],
+  "engines": {
+    "node": "^22.13.0 || ^24.0.0 || >=26.0.0",
+    "npm": ">=10"
+  },
+  "scripts": {
+    "dev": "node scripts/tasks.mjs dev",
+    "build": "node scripts/tasks.mjs build",
+    "start": "node scripts/tasks.mjs start",
+    "check": "node scripts/tasks.mjs check",
+    "test": "node scripts/tasks.mjs test",
+    "test:e2e": "playwright test",
+    "test:e2e:install": "playwright install chromium",
+    "contracts": "node scripts/tasks.mjs contracts",
+    "contracts:check": "node scripts/tasks.mjs contracts-check",
+    "format": "prettier --write . && dotnet format Pharo.sln",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "1.63.0",
+    "openapi-typescript": "7.13.0",
+    "prettier": "3.6.2",
+    "typescript": "~5.9.3"
+  }
+}

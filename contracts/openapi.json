@@ -1,0 +1,214 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "Pharo.Api | v1",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/instruments": {
+      "get": {
+        "tags": [
+          "Instruments"
+        ],
+        "summary": "List all instrument tickers, sorted alphabetically.",
+        "operationId": "ListInstruments",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/prices/{ticker}": {
+      "get": {
+        "tags": [
+          "Instruments"
+        ],
+        "summary": "Get daily closing prices, ordered from oldest to newest.",
+        "operationId": "GetPrices",
+        "parameters": [
+          {
+            "name": "ticker",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PricesResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/prices/{ticker}/stats": {
+      "get": {
+        "tags": [
+          "Instruments"
+        ],
+        "summary": "Get total return, sample daily volatility and maximum drawdown in percentage points.",
+        "operationId": "GetStatistics",
+        "parameters": [
+          {
+            "name": "ticker",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatisticsResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PricePoint": {
+        "required": [
+          "date",
+          "price"
+        ],
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "PricesResponse": {
+        "required": [
+          "ticker",
+          "prices"
+        ],
+        "type": "object",
+        "properties": {
+          "ticker": {
+            "type": "string"
+          },
+          "prices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PricePoint"
+            }
+          }
+        }
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "StatisticsResponse": {
+        "required": [
+          "ticker",
+          "totalReturnPercent",
+          "dailyVolatilityPercent",
+          "maxDrawdownPercent"
+        ],
+        "type": "object",
+        "properties": {
+          "ticker": {
+            "type": "string"
+          },
+          "totalReturnPercent": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "dailyVolatilityPercent": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "maxDrawdownPercent": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Instruments"
+    }
+  ]
+}
